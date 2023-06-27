@@ -1,0 +1,12 @@
+#MySQL ? JPA ??
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: mysql
