@@ -1,4 +1,4 @@
-package localholiday.spring.entity.job;
+package localholiday.spring.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,11 +14,10 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class JobStatusCode {
+public class locationCode {
 
     @Id
     private Byte id;
     @Column(length = 100)
     private String code;
-
 }
