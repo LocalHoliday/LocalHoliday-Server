@@ -14,7 +14,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class locationCode {
+public class LocationCode {
 
     @Id
     private Byte id;
