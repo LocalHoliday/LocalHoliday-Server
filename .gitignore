@@ -137,3 +137,5 @@ dist
 ./spring/out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+spring/src/main/resources/app.properties
+spring/src/main/resources/app.yml
