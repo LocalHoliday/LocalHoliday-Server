@@ -25,9 +25,9 @@ public class FoodBill {
     @Column(length = 36)
     private String id;
     @Column(length = 36, nullable = false)
-    private UUID billId;
+    private String billId;
     @Column(length = 36, nullable = false)
-    private UUID foodId;
+    private String foodId;
     @CreatedDate
     private String created;
 

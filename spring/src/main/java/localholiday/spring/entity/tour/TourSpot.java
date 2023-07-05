@@ -34,4 +34,6 @@ public class TourSpot {
     private Byte locCode;
     @Column(length = 100)
     private String photo;
+    @Column(length = 100)
+    private String addr;
 }

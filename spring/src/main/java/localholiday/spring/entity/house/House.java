@@ -34,4 +34,6 @@ public class House {
     @Column(length = 100)
     private String photo;
     private Byte statusCode;
+    @Column(length = 100)
+    private String addr;
 }
