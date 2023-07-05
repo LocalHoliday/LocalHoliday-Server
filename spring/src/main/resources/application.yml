@@ -13,3 +13,15 @@ spring:
   redis:
     host: localhost
     port: 6379
+
+springdoc:
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    path: /swagger-ui
+    display-request-duration: true
+    disable-swagger-default-url: false
+    operations-sorter: alpha
+    persist-authorization: true
+  cache:
+    disabled: true
