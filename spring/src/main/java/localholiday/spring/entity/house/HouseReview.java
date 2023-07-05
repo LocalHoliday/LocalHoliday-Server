@@ -26,11 +26,11 @@ public class HouseReview {
     @Column(length = 36)
     private String id;
     @Column(length = 36, nullable = false)
-    private UUID userId;
+    private String userId;
     @Column(length = 36, nullable = false)
-    private UUID billId;
+    private String billId;
     @Column(length = 36, nullable = false)
-    private UUID houseId;
+    private String houseId;
     @CreatedDate
     private Timestamp created;
     @Column(length = 300)
