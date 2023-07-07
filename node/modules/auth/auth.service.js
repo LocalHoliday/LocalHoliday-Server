@@ -38,19 +38,41 @@ exports.getClipService = async (trx, user) => {
     .select('id', 'name', 'photo', 'location', 'start_date', 'end_date', 'payment ')
     .whereIn('id', jobs);
   const play = await [...h, ...f, ...t];
-  // const play = [];
+  return { job, play };
+};
 
-  // play.push(...(await trx('house').select('id', 'name', 'photo', 'addr').whereIn('id', houses)));
-  // play.push(
-  //   ...(await trx('food').select('id', 'name', 'photo', 'addr', 'info').whereIn('id', foods))
-  // );
-  // play.push(
-  //   ...(await trx('tour_spot')
-  //     .select('id', 'name', 'photo', 'addr', 'info')
-  //     .whereIn('id', tour_spots))
-  // );
-  // const job = await trx('job')
-  //   .select('id', 'name', 'photo', 'location', 'start_date', 'end_date', 'payment ')
-  //   .whereIn('id', jobs);
-  return { job, play, clips, houses, foods, tour_spots, t };
+exports.getBillService = async (trx, user) => {
+  const bills = await trx('bill')
+    .select('start_date', 'end_date', 'id', 'location')
+    .where({ user_id: user.uid });
+  const result = [];
+  for (const bill of bills) {
+    const exist = await trx('bill_review').where({ bill_id: bill.id }).first();
+    const h = await trx
+      .from({ hb: 'house_bill' })
+      .select('h.id', 'h.name', 'h.photo', 'h.addr')
+      .leftJoin({ h: 'house' }, 'hb.house_id', 'h.id')
+      .where('hb.bill_id', bill.id);
+    const f = await trx
+      .from({ fb: 'food_bill' })
+      .select('f.id', 'f.name', 'f.photo', 'f.addr', 'f.info')
+      .leftJoin({ f: 'food' }, 'f.id', 'fb.food_id')
+      .where('fb.bill_id', bill.id);
+    const t = await trx
+      .from({ tsb: 'tour_spot_bill' })
+      .select('ts.id', 'ts.name', 'ts.photo', 'ts.addr', 'ts.info')
+      .leftJoin({ ts: 'tour_spot' }, 'ts.id', 'tsb.tour_spot_id')
+      .where('tsb.bill_id', bill.id);
+    const j = await trx
+      .from({ jb: 'job_bill' })
+      .select('j.id', 'j.name', 'j.photo', 'j.location', 'j.start_date', 'j.end_date', 'j.payment ')
+      .leftJoin({ j: 'job' }, 'j.id', 'jb.job_id')
+      .where('bill_id', bill.id);
+    bill.exists = exist ? 1 : 0;
+    result.push({
+      ...bill,
+      list: { houses: h ?? null, foods: f ?? null, tourSpots: t ?? null, jobs: j ?? null },
+    });
+  }
+  return result;
 };

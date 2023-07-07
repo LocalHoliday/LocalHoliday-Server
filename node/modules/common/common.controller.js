@@ -7,6 +7,7 @@ const {
   dbTestService,
   checkEmailUsedService,
   signinService,
+  verifyEmailService,
 } = require('./common.service');
 
 exports.getPresigned = async (req, res) => {
@@ -22,14 +23,15 @@ exports.postPresigned = async (req, res) => {
 exports.signinController = async (req, res) => {
   const user = await signinService(req.trx, req.body);
   const token = await createToken('access', user.id, 'app');
-  return res.status(200).json(token);
+  return res.status(200).json({ token });
 };
 
 exports.signupController = async (req, res) => {
-  // const user = await checkEmailUsedService(req.trx, req.body);
-  // if (user) throw new CustomError('USER_ALREADY_EXISTS');
-  await signupService(req.trx, req.body);
-  return res.status(200).end();
+  const user = await verifyEmailService(req.trx, req.body);
+  if (user) throw new CustomError('USER_ALREADY_EXISTS');
+  const userId = await signupService(req.trx, req.body);
+  const token = await createToken('access', userId, 'app');
+  return res.status(200).json({ token });
 };
 
 exports.getUserController = async (req, res) => {
