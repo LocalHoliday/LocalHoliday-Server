@@ -24,3 +24,10 @@ exports.signinSchema = Joi.object({
     password: Joi.string().max(255).required().error(new CustomError('INVALID_PASSWORD')),
   }).unknown(true),
 }).unknown(true);
+
+exports.postClipSchema = Joi.object({
+  body: Joi.object({
+    targetId: Joi.string().max(255).required().error(new CustomError('INVALID_TARGET_ID')),
+    job: Joi.boolean().required().error(new CustomError('INVALID_JOB_TYPE')),
+  }).unknown(true),
+}).unknown(true);
