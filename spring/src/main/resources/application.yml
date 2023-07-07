@@ -13,6 +13,10 @@ spring:
   redis:
     host: localhost
     port: 6379
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 springdoc:
   default-consumes-media-type: application/json
@@ -25,3 +29,13 @@ springdoc:
     persist-authorization: true
   cache:
     disabled: true
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_S3_AK}
+      secret-key: ${AWS_S3_SK}
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

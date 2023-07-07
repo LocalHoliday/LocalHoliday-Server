@@ -39,6 +39,8 @@ dependencies {
 	implementation 'org.apache.httpcomponents:httpclient'
 	//swagger
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.7.0'
+	//aws s3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
 tasks.named('test') {

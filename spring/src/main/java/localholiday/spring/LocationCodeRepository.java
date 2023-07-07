@@ -1,6 +1,6 @@
 package localholiday.spring;
 
-import localholiday.spring.entity.LocationCode;
+import localholiday.spring.domain.entity.LocationCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
