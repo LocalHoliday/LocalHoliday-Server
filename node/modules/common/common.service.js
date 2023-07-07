@@ -8,7 +8,8 @@ exports.signinService = async (trx, { email, password }) => {
   const hashedPassword = await bcrypt.hash(password, parseInt(process.env.HASH_ROUND));
   const user = await trx('user').where({ email }).first();
   if (!user) throw new CustomError('USER_NOT_FOUND', 404);
-  if (hashedPassword !== user.password) throw new CustomError('INVALID_PASSWORD');
+  const isPasswordMatched = await bcrypt.compare(password, user.password);
+  if (!isPasswordMatched) throw new CustomError('SIGNIN_FAILED');
   return user;
 };
 

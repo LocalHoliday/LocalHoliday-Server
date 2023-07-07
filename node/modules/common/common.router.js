@@ -8,7 +8,6 @@ const {
   signinController,
   signupController,
   getUserController,
-  dbtestController,
 } = require('./common.controller');
 const { signupSchema, signinSchema } = require('../../utils/validationSchema');
 
@@ -20,6 +19,12 @@ router
   // AWS S3 업로드용 presigned URL 요청
   .post(auth(), asyncWrapper(postPresigned, false));
 
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: 유저 추가 수정 삭제 조회
+ */
 router
   .route('/signIn')
   // 로그인
