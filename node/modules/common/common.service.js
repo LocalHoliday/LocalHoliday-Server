@@ -26,9 +26,15 @@ exports.signupService = async (trx, { email, password, name, phone, nickname, pl
     nickname,
     place,
   });
+  return userId;
 };
 
 exports.getUserService = async (trx, user) => {
   const info = await trx('user').where({ id: user.uid }).first();
   return info;
+};
+
+exports.verifyEmailService = async (trx, { email }) => {
+  const user = await trx('user').where({ email }).first();
+  return user;
 };
