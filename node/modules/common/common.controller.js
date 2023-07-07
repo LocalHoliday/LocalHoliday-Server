@@ -31,7 +31,7 @@ exports.signupController = async (req, res) => {
   if (user) throw new CustomError('USER_ALREADY_EXISTS');
   const userId = await signupService(req.trx, req.body);
   const token = await createToken('access', userId, 'app');
-  return res.status(200).json(token);
+  return res.status(200).json({ token });
 };
 
 exports.getUserController = async (req, res) => {
