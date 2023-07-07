@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'PROJECT_NAME',
+      name: 'localholiday',
       script: './server.js',
       watch: false,
       ignore_watch: ['logs', '.env', 'node_modules'],
