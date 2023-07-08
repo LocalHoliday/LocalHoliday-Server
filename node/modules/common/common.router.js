@@ -12,6 +12,8 @@ const {
   verifyNickNameController,
   getJobController,
   getJobDetailController,
+  getReviewController,
+  getReviewDetailController,
 } = require('./common.controller');
 const {
   signupSchema,
@@ -56,5 +58,10 @@ router.route('/job').get(auth(), validator(getJobSchema), asyncWrapper(getJobCon
 router
   .route(`/job/:jobId(${REGEX.UUID})`)
   .get(auth(), validator(getJobSchema), asyncWrapper(getJobDetailController));
+
+router.route('/review').get(auth(), asyncWrapper(getReviewController));
+router
+  .route(`/review/:reviewId(${REGEX.UUID})`)
+  .get(auth(), asyncWrapper(getReviewDetailController));
 
 module.exports = router;

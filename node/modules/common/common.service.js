@@ -65,3 +65,19 @@ exports.getJobDetailService = async (trx, { place }, { jobId }) => {
     .orderBy('created', 'DESC');
   return { ...job, reviews };
 };
+
+exports.getReviewService = async trx => {
+  const reviews = await trx('bill_review').orderBy('created', 'DESC');
+  return reviews;
+};
+
+exports.getReviewDetailService = async (trx, { reviewId }) => {
+  const review = await trx('bill_review').where({ id: reviewId }).first();
+  const houses = await trx('house_review').where({ bill_id: reviewId }).orderBy('created', 'DESC');
+  const foods = await trx('food_review').where({ bill_id: reviewId }).orderBy('created', 'DESC');
+  const tourSpots = await trx('tour_review')
+    .where({ bill_id: reviewId })
+    .orderBy('created', 'DESC');
+  const jobs = await trx('job_review').where({ bill_id: reviewId }).orderBy('created', 'DESC');
+  return { ...review, houses, foods, tourSpots, jobs };
+};
