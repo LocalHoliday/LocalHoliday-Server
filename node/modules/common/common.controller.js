@@ -4,10 +4,11 @@ const { getSignedUrl, createPresignedPost } = require('../../utils/s3');
 const {
   signupService,
   getUserService,
-  dbTestService,
-  checkEmailUsedService,
   signinService,
   verifyEmailService,
+  verifyNickNameService,
+  getJobService,
+  getJobDetailService,
 } = require('./common.service');
 
 exports.getPresigned = async (req, res) => {
@@ -37,4 +38,23 @@ exports.signupController = async (req, res) => {
 exports.getUserController = async (req, res) => {
   const user = await getUserService(req.trx, req.user);
   return res.status(200).json(user);
+};
+
+exports.verifyNickNameController = async (req, res) => {
+  const result = await verifyNickNameService(req.trx, req.query);
+  return res.status(200).json({ result });
+};
+exports.verifyEmailController = async (req, res) => {
+  const result = await verifyEmailService(req.trx, req.query);
+  return res.status(200).json({ result });
+};
+
+exports.getJobController = async (req, res) => {
+  const jobs = await getJobService(req.trx, req.query);
+  return res.status(200).json({ jobs });
+};
+
+exports.getJobDetailController = async (req, res) => {
+  const job = await getJobDetailService(req.trx, req.query, req.params);
+  return res.status(200).json({ job });
 };
