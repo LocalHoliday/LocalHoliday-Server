@@ -9,6 +9,8 @@ const {
   verifyNickNameService,
   getJobService,
   getJobDetailService,
+  getReviewService,
+  getReviewDetailService,
 } = require('./common.service');
 
 exports.getPresigned = async (req, res) => {
@@ -57,4 +59,14 @@ exports.getJobController = async (req, res) => {
 exports.getJobDetailController = async (req, res) => {
   const job = await getJobDetailService(req.trx, req.query, req.params);
   return res.status(200).json({ job });
+};
+
+exports.getReviewController = async (req, res) => {
+  const reviews = await getReviewService(req.trx);
+  return res.status(200).json({ reviews });
+};
+
+exports.getReviewDetailController = async (req, res) => {
+  const review = await getReviewDetailService(req.trx, req.params);
+  return res.status(200).json({ review });
 };
