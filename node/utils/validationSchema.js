@@ -31,3 +31,24 @@ exports.postClipSchema = Joi.object({
     job: Joi.boolean().required().error(new CustomError('INVALID_JOB_TYPE')),
   }).unknown(true),
 }).unknown(true);
+
+exports.verifyEmailSchema = Joi.object({
+  query: Joi.object({
+    email: Joi.string()
+      .pattern(/^[\w\.-]+@[\w-]+(\.\w{2,4}){1,2}$/)
+      .max(200)
+      .error(new CustomError('INVALID_EMAIL')),
+  }).unknown(true),
+}).unknown(true);
+
+exports.verifyNickNameSchema = Joi.object({
+  query: Joi.object({
+    nickname: Joi.string().max(100).required().error(new CustomError('INVALID_NICKNAME')),
+  }).unknown(true),
+}).unknown(true);
+
+exports.getJobSchema = Joi.object({
+  query: Joi.object({
+    place: Joi.string().max(100).required().error(new CustomError('INVALID_PLACE')),
+  }).unknown(true),
+}).unknown(true);

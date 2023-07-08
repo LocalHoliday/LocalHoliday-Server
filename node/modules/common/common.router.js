@@ -8,9 +8,19 @@ const {
   signinController,
   signupController,
   getUserController,
-  dbtestController,
+  verifyEmailController,
+  verifyNickNameController,
+  getJobController,
+  getJobDetailController,
 } = require('./common.controller');
-const { signupSchema, signinSchema } = require('../../utils/validationSchema');
+const {
+  signupSchema,
+  signinSchema,
+  verifyEmailSchema,
+  verifyNickNameSchema,
+  getJobSchema,
+} = require('../../utils/validationSchema');
+const { REGEX } = require('../../utils');
 
 /** AWS S3 */
 router
@@ -31,5 +41,20 @@ router
   .post(validator(signupSchema), asyncWrapper(signupController))
   // 내 정보 가져오기
   .get(auth(), asyncWrapper(getUserController));
+
+router
+  // email 중복 확인
+  .route('/verify/email')
+  .get(validator(verifyEmailSchema), asyncWrapper(verifyEmailController));
+
+router
+  // NICK_NAME 중복 확인
+  .route('/verify/nickname')
+  .get(validator(verifyNickNameSchema), asyncWrapper(verifyNickNameController));
+
+router.route('/job').get(auth(), validator(getJobSchema), asyncWrapper(getJobController));
+router
+  .route(`/job/:jobId(${REGEX.UUID})`)
+  .get(auth(), validator(getJobSchema), asyncWrapper(getJobDetailController));
 
 module.exports = router;

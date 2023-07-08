@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 const { v4: uuid } = require('uuid');
 const bcrypt = require('bcrypt');
-const knex = require('../../database/knex');
 const CustomError = require('../../utils/CustomError');
 
 exports.signinService = async (trx, { email, password }) => {
@@ -35,6 +34,34 @@ exports.getUserService = async (trx, user) => {
 };
 
 exports.verifyEmailService = async (trx, { email }) => {
-  const user = await trx('user').where({ email }).first();
-  return user;
+  const result = await trx('user').where({ email }).first();
+  return result ? false : true;
+};
+
+exports.verifyNickNameService = async (trx, { nickname }) => {
+  const result = await trx('user').where({ nickname }).first();
+  return result ? false : true;
+};
+
+exports.getJobService = async (trx, { place }) => {
+  const { id } = await trx('location_code').where({ code: place }).first();
+  const jobs = await trx('job')
+    .select('id', 'name', 'photo', 'location', 'start_date', 'end_date', 'payment')
+    .where({ field: id })
+    .orderBy('end_date', 'DESC');
+  return jobs;
+};
+
+exports.getJobDetailService = async (trx, { place }, { jobId }) => {
+  const { id } = await trx('location_code').where({ code: place }).first();
+  const job = await trx('job')
+    .select('id', 'name', 'photo', 'location', 'start_date', 'end_date', 'payment', 'host_phone')
+    .where({ field: id, id: jobId })
+    .first();
+  const reviews = await trx
+    .from({ jb: 'job_bill' })
+    .leftJoin({ j: 'job' }, 'j.id', 'jb.job_id')
+    .where({ 'j.field': id, 'j.id': jobId })
+    .orderBy('created', 'DESC');
+  return { ...job, reviews };
 };
