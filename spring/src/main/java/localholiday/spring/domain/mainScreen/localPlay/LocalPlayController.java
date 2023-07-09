@@ -1,6 +1,7 @@
 package localholiday.spring.domain.mainScreen.localPlay;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import localholiday.spring.global.baseResponse.BaseResponse;
 import localholiday.spring.domain.food.FoodService;
 import localholiday.spring.domain.house.HouseService;
@@ -21,7 +22,7 @@ public class LocalPlayController {
 
     @Operation(summary = "지역 놀거리 목록", description = "선택한 지역의 맛집,관광지,숙소를 한번에 제공")
     @GetMapping("play")
-    public ResponseEntity<BaseResponse<LocalPlayDTO>> getLocalPlay(@RequestParam String loc){
+    public ResponseEntity<BaseResponse<LocalPlayDTO>> getLocalPlay(@Parameter(description = "경기/충청/경남/경북/전남/전북/강원/제주", example = "경기") @RequestParam String loc){
         LocalPlayDTO playDTO = new LocalPlayDTO();
         playDTO.setFoodDTOList(foodService.foodList(loc));
         playDTO.setHouseDTOList(houseService.houseList(loc));

@@ -47,8 +47,8 @@ public class JwtService {
         ObjectMapper mapper = new ObjectMapper();
         try{
             JsonNode node = mapper.readTree(decodePayload);
-            log.info("uid={}", node.get("uid").toString());
-            return node.get("uid").toString().replaceAll("\"", "");
+            log.info("customClaim={}", node.get(customClaim).toString());
+            return node.get(customClaim).toString().replaceAll("\"", "");
         } catch (JsonProcessingException e){
             e.printStackTrace();
         }
