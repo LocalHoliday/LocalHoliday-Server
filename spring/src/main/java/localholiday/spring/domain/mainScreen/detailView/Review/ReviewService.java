@@ -81,8 +81,7 @@ public class ReviewService {
                 .endDate(end)
                 .created(new Timestamp(System.currentTimeMillis()))
                 .build();
-        houseReviewRepository.save(houseReview);
-        return houseReviewRepository.findByUserIdAndBillIdAndHouseId(userId, billId, targetId).getId();
+        return houseReviewRepository.save(houseReview).getId();
     }
 
     public List<ReviewDTO> getReviewList(String uuid){

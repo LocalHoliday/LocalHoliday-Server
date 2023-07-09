@@ -48,6 +48,8 @@ public class ReservationController {
 
         if(!redisService.isExists(uid+":app:access"))
             return ResponseEntity.badRequest().body(new BaseResponse<>("로그인 중인 유저가 아닙니다.", BaseResponseStatus.BAD_REQUEST));
+        if(redisService.getValues(uid+":app:access").compareTo(token.substring("Bearer ".length())) != 0)
+            return ResponseEntity.badRequest().body(new BaseResponse<>("로그인 중인 유저가 아닙니다.", BaseResponseStatus.BAD_REQUEST));
         else{
             String billId = billService.reservation(uid,reservationDTO.getStart(), reservationDTO.getEnd(), reservationDTO.getLocation());
             for(String uuid : reservationDTO.getUuid()){
