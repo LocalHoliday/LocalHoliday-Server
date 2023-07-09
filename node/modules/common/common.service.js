@@ -46,7 +46,14 @@ exports.verifyNickNameService = async (trx, { nickname }) => {
 exports.getJobService = async (trx, { place }) => {
   const { id } = await trx('location_code').where({ code: place }).first();
   const jobs = await trx('job')
-    .select('id', 'name', 'photo', 'location', 'start_date', 'end_date', 'payment')
+    .select('name', 'photo')
+    .select({
+      uuid: 'id',
+      addr: 'location',
+      startTime: 'start_date',
+      endTime: 'end_date',
+      pay: 'payment',
+    })
     .where({ field: id })
     .orderBy('end_date', 'DESC');
   return jobs;
@@ -55,7 +62,14 @@ exports.getJobService = async (trx, { place }) => {
 exports.getJobDetailService = async (trx, { place }, { jobId }) => {
   const { id } = await trx('location_code').where({ code: place }).first();
   const job = await trx('job')
-    .select('id', 'name', 'photo', 'location', 'start_date', 'end_date', 'payment', 'host_phone')
+    .select('name', 'photo', 'host_phone')
+    .select({
+      uuid: 'id',
+      addr: 'location',
+      startTime: 'start_date',
+      endTime: 'end_date',
+      pay: 'payment',
+    })
     .where({ field: id, id: jobId })
     .first();
   const reviews = await trx
