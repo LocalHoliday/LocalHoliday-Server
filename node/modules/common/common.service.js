@@ -35,7 +35,7 @@ exports.getUserService = async (trx, user) => {
 
 exports.verifyEmailService = async (trx, { email }) => {
   const result = await trx('user').where({ email }).first();
-  return result ? false : true;
+  return result ? true : false;
 };
 
 exports.verifyNickNameService = async (trx, { nickname }) => {
