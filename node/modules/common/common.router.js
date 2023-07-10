@@ -59,9 +59,7 @@ router
   .route(`/job/:jobId(${REGEX.UUID})`)
   .get(auth(), validator(getJobSchema), asyncWrapper(getJobDetailController));
 
-router.route('/review').get(auth(), asyncWrapper(getReviewController));
-router
-  .route(`/review/:reviewId(${REGEX.UUID})`)
-  .get(auth(), asyncWrapper(getReviewDetailController));
+router.route('/review').get(asyncWrapper(getReviewController));
+router.route(`/review/:reviewId(${REGEX.UUID})`).get(asyncWrapper(getReviewDetailController));
 
 module.exports = router;
