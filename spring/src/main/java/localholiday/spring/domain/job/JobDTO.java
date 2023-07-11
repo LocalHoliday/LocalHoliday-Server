@@ -17,9 +17,9 @@ public class JobDTO {
     @Schema(description = "알바 주소")
     private String addr;
     @Schema(description = "시작일시", example = "2023-07-03")
-    private Timestamp startTime;
+    private String startTime;
     @Schema(description = "종료일시", example = "2023-07-03")
-    private Timestamp endTime;
+    private String endTime;
     @Schema(description = "급여, 협의는 0원")
     private Integer pay;
     @Schema(description = "알바사진 URL")

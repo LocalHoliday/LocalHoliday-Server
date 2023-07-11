@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,8 +40,8 @@ public class RecommendService {
         Optional<Job> job = jobRepository.findById(uuid);
         return job.map(value -> JobDTO.builder()
                 .addr(value.getLocation())
-                .endTime(value.getEndDate())
-                .startTime(value.getStartDate())
+                .endTime(value.getEndDate().toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")))
+                .startTime(value.getStartDate().toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")))
                 .name(value.getName())
                 .pay(value.getPayment())
                 .photo(value.getPhoto())
