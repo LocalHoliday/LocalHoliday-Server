@@ -17,7 +17,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public boolean isLogin(String token){
-        String uuid = jwtService.getCustomValue(token, "uuid");
+        String uuid = jwtService.getCustomValue(token, "uid");
         return redisService.isExists(uuid);
     }
 
@@ -34,5 +34,11 @@ public class UserService {
             return userDTO;
         }
         return null;
+    }
+
+    public void deleteUser(String uuid){
+         Optional<User> user = userRepository.findById(uuid);
+         if(user.isPresent())
+             userRepository.deleteById(uuid);
     }
 }
