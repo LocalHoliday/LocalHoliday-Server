@@ -41,10 +41,8 @@ exports.getClipService = async (trx, user) => {
   return { job, play };
 };
 
-exports.getBillService = async (trx, user) => {
-  const bills = await trx('bill')
-    .select('start_date', 'end_date', 'id', 'location')
-    .where({ user_id: user.uid });
+exports.getBillService = async trx => {
+  const bills = await trx('bill').select('start_date', 'end_date', 'id', 'location');
   const result = [];
   for (const bill of bills) {
     const exist = await trx('bill_review').where({ bill_id: bill.id }).first();

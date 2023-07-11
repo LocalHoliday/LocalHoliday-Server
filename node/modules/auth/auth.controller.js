@@ -11,6 +11,6 @@ exports.postClipController = async (req, res) => {
 };
 
 exports.getBillController = async (req, res) => {
-  const bills = await getBillService(req.trx, req.user);
+  const bills = await getBillService(req.trx);
   return res.status(200).json(bills);
 };

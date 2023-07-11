@@ -11,6 +11,8 @@ const {
   getJobDetailService,
   getReviewService,
   getReviewDetailService,
+  getBillDetailService,
+  getBillService,
 } = require('./common.service');
 
 exports.getPresigned = async (req, res) => {
@@ -68,5 +70,15 @@ exports.getReviewController = async (req, res) => {
 
 exports.getReviewDetailController = async (req, res) => {
   const review = await getReviewDetailService(req.trx, req.params);
+  return res.status(200).json({ review });
+};
+
+exports.getBillController = async (req, res) => {
+  const reviews = await getBillService(req.trx);
+  return res.status(200).json({ reviews });
+};
+
+exports.getBillDetailController = async (req, res) => {
+  const review = await getBillDetailService(req.trx, req.params);
   return res.status(200).json({ review });
 };

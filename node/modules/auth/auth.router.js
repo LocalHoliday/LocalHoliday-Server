@@ -16,6 +16,6 @@ router
   // 영수증
   .route('/bill')
   // 영수증 조회 기능
-  .get(auth(), asyncWrapper(getBillController));
+  .get(asyncWrapper(getBillController));
 
 module.exports = router;
