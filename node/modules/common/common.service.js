@@ -95,3 +95,34 @@ exports.getReviewDetailService = async (trx, { reviewId }) => {
   const jobs = await trx('job_review').where({ bill_id: reviewId }).orderBy('created', 'DESC');
   return { ...review, houses, foods, tourSpots, jobs };
 };
+
+exports.getBillService = async trx => {
+  const reviews = await trx('bill_review').orderBy('created', 'DESC');
+  const result = [];
+  for (const review of reviews) {
+    const { user_id } = review;
+    const { photo, nickname } = await trx('user')
+      .select('photo', 'nickname')
+      .where({ id: user_id })
+      .first();
+    review.photo = photo;
+    review.nickname = nickname;
+    result.push(review);
+  }
+  return result;
+};
+
+exports.getBillDetailService = async (trx, { billId }) => {
+  const review = await trx('bill_review').where({ bill_id: billId }).first();
+  const { photo, nickname } = await trx('user')
+    .select('photo', 'nickname')
+    .where({ id: review.user_id })
+    .first();
+  review.photo = photo;
+  review.nickname = nickname;
+  const houses = await trx('house_review').where({ bill_id: billId }).orderBy('created', 'DESC');
+  const foods = await trx('food_review').where({ bill_id: billId }).orderBy('created', 'DESC');
+  const tourSpots = await trx('tour_review').where({ bill_id: billId }).orderBy('created', 'DESC');
+  const jobs = await trx('job_review').where({ bill_id: billId }).orderBy('created', 'DESC');
+  return { ...review, houses, foods, tourSpots, jobs };
+};
