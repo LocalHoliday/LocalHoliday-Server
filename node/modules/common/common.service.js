@@ -84,7 +84,7 @@ exports.getJobDetailService = async (trx, { jobId }) => {
     })
     .leftJoin({ j: 'job' }, 'j.id', 'jr.job_id')
     .leftJoin({ u: 'user' }, 'u.id', 'jr.user_id')
-    .where({ 'j.field': id, 'j.id': jobId })
+    .where({ 'j.id': jobId })
     .orderBy('jr.created', 'DESC');
   return { ...job, reviews };
 };
