@@ -59,7 +59,7 @@ exports.getJobController = async (req, res) => {
 };
 
 exports.getJobDetailController = async (req, res) => {
-  const job = await getJobDetailService(req.trx, req.query, req.params);
+  const job = await getJobDetailService(req.trx, req.params);
   return res.status(200).json({ job });
 };
 
