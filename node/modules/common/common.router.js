@@ -57,9 +57,7 @@ router
   .get(validator(verifyNickNameSchema), asyncWrapper(verifyNickNameController));
 
 router.route('/job').get(validator(getJobSchema), asyncWrapper(getJobController));
-router
-  .route(`/job/:jobId(${REGEX.UUID})`)
-  .get(validator(getJobSchema), asyncWrapper(getJobDetailController));
+router.route(`/job/:jobId(${REGEX.UUID})`).get(asyncWrapper(getJobDetailController));
 
 router.route('/review').get(asyncWrapper(getReviewController));
 router.route(`/review/:reviewId(${REGEX.UUID})`).get(asyncWrapper(getReviewDetailController));
