@@ -59,8 +59,7 @@ exports.getJobService = async (trx, { place }) => {
   return jobs;
 };
 
-exports.getJobDetailService = async (trx, { place }, { jobId }) => {
-  const { id } = await trx('location_code').where({ code: place }).first();
+exports.getJobDetailService = async (trx, { jobId }) => {
   const job = await trx('job')
     .select('name', 'photo', 'host_phone')
     .select({
@@ -70,7 +69,7 @@ exports.getJobDetailService = async (trx, { place }, { jobId }) => {
       endTime: 'end_date',
       pay: 'payment',
     })
-    .where({ field: id, id: jobId })
+    .where({ id: jobId })
     .first();
   const reviews = await trx
     .from({ jr: 'job_review' })
