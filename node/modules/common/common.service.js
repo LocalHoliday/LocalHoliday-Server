@@ -73,10 +73,20 @@ exports.getJobDetailService = async (trx, { place }, { jobId }) => {
     .where({ field: id, id: jobId })
     .first();
   const reviews = await trx
-    .from({ jb: 'job_bill' })
-    .leftJoin({ j: 'job' }, 'j.id', 'jb.job_id')
+    .from({ jr: 'job_review' })
+    .select({
+      reviewId: 'jr.id',
+      username: 'u.nickname',
+      content: 'jr.content',
+      author: 'u.id',
+      profile: 'u.photo',
+      title: 'jr.title',
+      thumbnail: 'jr.photo',
+    })
+    .leftJoin({ j: 'job' }, 'j.id', 'jr.job_id')
+    .leftJoin({ u: 'user' }, 'u.id', 'jr.user_id')
     .where({ 'j.field': id, 'j.id': jobId })
-    .orderBy('created', 'DESC');
+    .orderBy('jr.created', 'DESC');
   return { ...job, reviews };
 };
 
@@ -120,9 +130,40 @@ exports.getBillDetailService = async (trx, { billId }) => {
     .first();
   review.photo = photo;
   review.nickname = nickname;
-  const houses = await trx('house_review').where({ bill_id: billId }).orderBy('created', 'DESC');
-  const foods = await trx('food_review').where({ bill_id: billId }).orderBy('created', 'DESC');
-  const tourSpots = await trx('tour_review').where({ bill_id: billId }).orderBy('created', 'DESC');
-  const jobs = await trx('job_review').where({ bill_id: billId }).orderBy('created', 'DESC');
-  return { ...review, houses, foods, tourSpots, jobs };
+  const houses = await trx('house_review')
+    .select('id')
+    .where({ bill_id: billId })
+    .orderBy('created', 'DESC');
+  const playIds = [];
+  const jobIds = [];
+  const foods = await trx('food_review')
+    .select('id')
+    .where({ bill_id: billId })
+    .orderBy('created', 'DESC');
+  const tourSpots = await trx('tour_review')
+    .select('id')
+    .where({ bill_id: billId })
+    .orderBy('created', 'DESC');
+  const jobs = await trx('job_review')
+    .select('id')
+    .where({ bill_id: billId })
+    .orderBy('created', 'DESC');
+  for (const house of houses) {
+    playIds.push(house?.id);
+  }
+  for (const food of foods) {
+    playIds.push(food?.id);
+  }
+  for (const tourSpot of tourSpots) {
+    playIds.push(tourSpot?.id);
+  }
+  for (const job of jobs) {
+    jobIds.push(job?.id);
+  }
+  const reviews = {
+    ...review,
+    playIds,
+    jobIds,
+  };
+  return reviews;
 };
