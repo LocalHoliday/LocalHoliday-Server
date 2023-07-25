@@ -124,8 +124,7 @@ exports.getBillDetailService = async (trx, { billId }) => {
   const review = await trx('bill_review').where({ bill_id: billId }).first();
   const { photo, nickname } = await trx('user')
     .select('photo', 'nickname')
-    .where({ id: review.user_id })
-    .first();
+    .where({ id: review.user_id });
   review.photo = photo;
   review.nickname = nickname;
   const houses = await trx('house_review')
